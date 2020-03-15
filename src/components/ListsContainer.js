@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from "styled-components";
+
+const Button = styled.button`
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 11rem;
+  background: transparent;
+  color: #282c34;
+  border: 2px solid #282c34;
+`;
 
 const USERS_QUERY = gql`
   query {
@@ -27,6 +39,9 @@ class ListsContainer extends Component {
        if (error) return <div>Error!</div>
        return (
          <div className="flex flex-wrap mb-4">
+         <div>
+           <Button> Button </Button>
+       </div>
          Authors:
          {data.allAuthors.map((user) => {
                return <div key={user.id} className="m-4 w-1/4 rounded overflow-hidden shadow-lg">
