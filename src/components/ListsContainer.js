@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from "styled-components";
+import NewBook from './NewBook';
 
 const Button = styled.button`
   display: inline-block;
@@ -29,7 +30,6 @@ const USERS_QUERY = gql`
   }
 `;
 
-
 class ListsContainer extends Component {
     render() {
       return (
@@ -54,6 +54,7 @@ class ListsContainer extends Component {
                    })}
                    </div>
                  </div>
+                 <NewBook />
                </div>
              })}
          </div>
