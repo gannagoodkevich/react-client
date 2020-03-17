@@ -6,11 +6,11 @@ import styled from "styled-components";
 import { Mutation } from '@apollo/react-components';
 
 const BOOK_CREATE = gql`
-    mutation {
+    mutation createBook($title: String!, $genre: String!){
                         createBook(input: {
                           authorId: "1"
-                          title: "$title"
-                          genre: "genre_1"
+                          title: $title
+                          genre: $genre
                         })
                         {
                           book {
@@ -27,9 +27,33 @@ const BOOK_CREATE = gql`
                       }
 `;
 
+const Button = styled.button`
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 11rem;
+  background: transparent;
+  color: #282c34;
+  border: 2px solid #282c34;
+`;
+
+const Input = styled.input.attrs(props => ({
+  type: "text",
+  size: "1em",
+}))`
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  color: #282c34;
+  font-size: 1em;
+  border: 2px solid #282c34;
+  border-radius: 3px;
+`;
+
 class NewBook extends Component {
 
-    input
+    input_title
+    input_genre
 
     constructor(props) {
         super(props);
@@ -56,17 +80,28 @@ class NewBook extends Component {
                 <form
                   onSubmit={e => {
                     e.preventDefault();
-                    createBook({ variables: { title: this.input.value } });
+                    createBook({ variables: { title: this.input_title.value, genre: this.input_genre.value } });
 
-                    this.input.value = '';
+                    this.input_title.value = '';
+                    this.input_genre.value = '';
+                    
                   }}
                 >
-                  <input
+                <div class='form-book'>
+                  Title: <Input
                     ref={node => {
-                      this.input = node;
+                      this.input_title = node;
                     }}
                   />
-                  <button type="submit">Update Todo</button>
+                  <p></p>
+                  Genre: <Input
+                    ref={node => {
+                      this.input_genre = node;
+                    }}
+                  />
+                  <p></p>
+                  <Button type="submit">Add book</Button>
+                  </div>
                 </form>
               </div>
             )}

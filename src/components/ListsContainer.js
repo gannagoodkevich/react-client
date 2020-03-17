@@ -39,17 +39,20 @@ class ListsContainer extends Component {
        if (error) return <div>Error!</div>
        return (
          <div className="flex flex-wrap mb-4">
-         <div>
-           <Button> Button </Button>
-       </div>
          Authors:
-         {data.allAuthors.map((user) => {
-               return <div key={user.id} className="m-4 w-1/4 rounded overflow-hidden shadow-lg">
-                 <div className="px-6 py-4"> Author {user.id}:
-                   <div className="font-bold text-xl mb-2">{user.name}</div>
-                   <div className="font-bold text-xl">Books: {user.books.map((book) =>{
-                      return <div key={book.id} className="m-4 w-1/4 rounded overflow-hidden shadow-lg">
-                        <div className="font-bold text-xl mb-2">{book.title}</div>
+         {data.allAuthors.map((author) => {
+               return <div key={author.id} className="m-4 w-1/4 rounded overflow-hidden shadow-lg">
+                 <div className="px-6 py-4"> Author {author.id}:
+                   <div className="font-bold text-xl mb-2">{author.name}</div>
+                   <p></p>
+                   <div className="font-bold text-xl">Books: <p></p> {author.books.map((book) =>{
+                      return <div class="card">
+                       <div class="container">
+                         <h4><b>Title: {book.title}</b></h4>
+                         <p>Genre: {book.genre}</p>
+                         <p>Written by: {author.name}</p>
+                       </div>
+                       <p></p>
                       </div>
                    })}
                    </div>
