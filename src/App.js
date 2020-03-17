@@ -11,6 +11,7 @@ class App extends Component {
         <div className="content">
           <ListsContainer />
         </div>
+        <div id='root'></div>
       </div>
     );
   }
