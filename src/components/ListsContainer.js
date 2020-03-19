@@ -16,49 +16,44 @@ const Button = styled.button`
   border: 2px solid #282c34;
 `;
 
-const USERS_QUERY = gql`
-  query {
-    allAuthors{
+const BOOKS = gql`
+  {
+                          allBooks{
                             id
-                            name
-                            books{
-                                id
-                                title
-                                genre
+                            title
+                            genre
+                            author{
+                              id
+                              name
                             }
                           }
-  }
+                        }
 `;
 
 const bookList = (
   <div>
-  <Query query={USERS_QUERY}>
-    {({ loading, error, data }) => {
+  <Query query={BOOKS}>
+    {({ loading, error, data, refetch }) => {
       if (loading) return <div>Fetching..</div>
-      if (error) return <div>Error!</div>
+      if (error) return <div>Error! ${error.message} </div>
       return (
         <div className="flex flex-wrap mb-4">
-        Authors:
-        {data.allAuthors.map((author) => {
-              return <div key={author.id} className="m-4 w-1/4 rounded overflow-hidden shadow-lg">
-                <div className="px-6 py-4"> Author {author.id}:
-                  <div className="font-bold text-xl mb-2">{author.name}</div>
-                  <p></p>
-                  <div className="font-bold text-xl">Books: <p></p> {author.books.map((book) =>{
-                    return <div class="card">
+        Books:
+        {data.allBooks.map((book) => {
+                    console.log(book.author.name)
+                    return <div>
+                    <div class="card">
                      <div class="container">
                        <h4><b>Title: {book.title}</b></h4>
                        <p>Genre: {book.genre}</p>
-                       <p>Written by: {author.name}</p>
+                       <p>Written by: {book.author.name}</p>
                      </div>
                      <p></p>
                     </div>
-                  })}
                   </div>
+                  })}
                   <NewBook />
-                </div>
-              </div>
-            })}
+                  <button onClick={() => refetch()}>Refetch!</button>
         </div>
       )
     }}
@@ -69,10 +64,10 @@ const bookList = (
 
 
 class ListsContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  componentDidUpdate(prevProps) {
-  console.log('Hello world')
-}
     render() {
       return (
         bookList

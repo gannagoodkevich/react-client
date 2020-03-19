@@ -4,11 +4,24 @@ import axios from 'axios';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from "styled-components";
-import { Mutation } from '@apollo/react-components';
+import { Mutation } from 'react-apollo';
 import bookList from './ListsContainer';
 import ListsContainer from './ListsContainer';
-import USERS_QUERY from './ListsContainer';
 
+
+const BOOKS = gql`
+  {
+                          allBooks{
+                            id
+                            title
+                            genre
+                            author{
+                              id
+                              name
+                            }
+                          }
+                        }
+`;
 
 const BOOK_CREATE = gql`
     mutation createBook($title: String!, $genre: String!){
@@ -55,6 +68,18 @@ const Input = styled.input.attrs(props => ({
   border-radius: 3px;
 `;
 
+const updateCache = (cache, { data: {createBook} }) => {
+  const { allBooks } = cache.readQuery({  query: BOOKS})
+  //console.log(data, cache)
+  //console.log("Hello");
+  cache.writeQuery({
+    query: BOOKS,
+    data: {
+      allBooks: allBooks.concat(createBook.book)
+    }
+  })
+}
+
 class NewBook extends Component {
 
     input_title
@@ -64,13 +89,9 @@ class NewBook extends Component {
         super(props);
         this.state = {title: ''};
 
-        this.createBook = this.createBook.bind(this);
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
     }
 
-    createBook(event){
-      console.log("Hello Wolrd");
-    }
 
     handleChangeTitle(event) {
       console.log("Eeey");
@@ -79,7 +100,7 @@ class NewBook extends Component {
 
     render(){
        return (
-         <Mutation mutation={BOOK_CREATE}>
+         <Mutation mutation={BOOK_CREATE} update={updateCache}>
             {createBook => (
               <div>
                 <form
