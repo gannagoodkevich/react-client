@@ -5,45 +5,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from "styled-components";
 import { Mutation } from 'react-apollo';
-import bookList from './ListsContainer';
-import ListsContainer from './ListsContainer';
-
-
-const BOOKS = gql`
-  {
-                          allBooks{
-                            id
-                            title
-                            genre
-                            author{
-                              id
-                              name
-                            }
-                          }
-                        }
-`;
-
-const BOOK_CREATE = gql`
-    mutation createBook($title: String!, $genre: String!){
-                        createBook(input: {
-                          authorId: "1"
-                          title: $title
-                          genre: $genre
-                        })
-                        {
-                          book {
-                            id
-                            title
-                            genre
-                            author{
-                              id
-                              name
-                            }
-                          }
-                          errors
-                        }
-                      }
-`;
+import BOOKS from './../queries/books_query';
+import {BOOK_CREATE} from "./../queries/books_query";
 
 const Button = styled.button`
   display: inline-block;
@@ -82,8 +45,8 @@ const updateCache = (cache, { data: {createBook} }) => {
 
 class NewBook extends Component {
 
-    input_title
-    input_genre
+    input_title;
+    input_genre;
 
     constructor(props) {
         super(props);
@@ -106,7 +69,7 @@ class NewBook extends Component {
                 <form
                   onSubmit={e => {
                     e.preventDefault();
-                    createBook({ variables: { title: this.input_title.value, genre: this.input_genre.value } });
+                    createBook({ variables: { authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
 
                     this.input_title.value = '';
                     this.input_genre.value = '';

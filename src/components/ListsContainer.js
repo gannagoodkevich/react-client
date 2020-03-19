@@ -4,6 +4,9 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from "styled-components";
 import NewBook from './NewBook';
+import BOOKS from './../queries/books_query';
+import BookElement from "./BookElement";
+
 
 const Button = styled.button`
   display: inline-block;
@@ -16,20 +19,6 @@ const Button = styled.button`
   border: 2px solid #282c34;
 `;
 
-const BOOKS = gql`
-  {
-                          allBooks{
-                            id
-                            title
-                            genre
-                            author{
-                              id
-                              name
-                            }
-                          }
-                        }
-`;
-
 const bookList = (
   <div>
   <Query query={BOOKS}>
@@ -39,21 +28,15 @@ const bookList = (
       return (
         <div className="flex flex-wrap mb-4">
         Books:
+          <p></p>
         {data.allBooks.map((book) => {
                     console.log(book.author.name)
-                    return <div>
-                    <div class="card">
-                     <div class="container">
-                       <h4><b>Title: {book.title}</b></h4>
-                       <p>Genre: {book.genre}</p>
-                       <p>Written by: {book.author.name}</p>
-                     </div>
+                    return <div className="card">
+                      <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author.name} />
                      <p></p>
                     </div>
-                  </div>
                   })}
                   <NewBook />
-                  <button onClick={() => refetch()}>Refetch!</button>
         </div>
       )
     }}
