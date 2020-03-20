@@ -7,6 +7,7 @@ import NewBook from './NewBook';
 import BOOKS from './../queries/books_query';
 import BookElement from "./BookElement";
 import LibraryList from "./Libraries";
+import NewLibrary from "./NewLibrary";
 
 
 const Button = styled.button`
@@ -39,6 +40,7 @@ const bookList = (
                   })}
                   <NewBook />
                   <LibraryList />
+                  <NewLibrary />
         </div>
       )
     }}

@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { Mutation } from 'react-apollo';
 import BOOKS from './../queries/books_query';
 import {BOOK_CREATE} from "./../queries/books_query";
+import LIBRARIES from "../queries/libraries_query";
+import {ADD_LIBRARY} from "../queries/libraries_query";
 
 const Button = styled.button`
   display: inline-block;
@@ -31,22 +33,21 @@ const Input = styled.input.attrs(props => ({
   border-radius: 3px;
 `;
 
-const updateCache = (cache, { data: {createBook} }) => {
-    const { allBooks } = cache.readQuery({  query: BOOKS})
+const updateCache = (cache, { data: {createLibrary} }) => {
+    const { allLibraries } = cache.readQuery({  query: LIBRARIES})
     //console.log(data, cache)
-    //console.log("Hello");
+    console.log(createLibrary.library);
     cache.writeQuery({
-        query: BOOKS,
+        query: LIBRARIES,
         data: {
-            allBooks: allBooks.concat(createBook.book)
+            allLibraries: allLibraries.concat(createLibrary.library)
         }
     })
 }
 
-class NewBook extends Component {
+class NewLibrary extends Component {
 
     input_title;
-    input_genre;
 
     constructor(props) {
         super(props);
@@ -63,16 +64,15 @@ class NewBook extends Component {
 
     render(){
         return (
-            <Mutation mutation={BOOK_CREATE} update={updateCache}>
-                {createBook => (
+            <Mutation mutation={ADD_LIBRARY} update={updateCache}>
+                {createLibrary => (
                     <div>
                         <form
                             onSubmit={e => {
                                 e.preventDefault();
-                                createBook({ variables: { authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
+                                createLibrary({ variables: { title: this.input_title.value } });
 
                                 this.input_title.value = '';
-                                this.input_genre.value = '';
                             }}
                         >
                             <div class='form-book'>
@@ -82,13 +82,7 @@ class NewBook extends Component {
                                 }}
                             />
                                 <p></p>
-                                Genre: <Input
-                                ref={node => {
-                                    this.input_genre = node;
-                                }}
-                            />
-                                <p></p>
-                                <Button type="submit">Add book</Button>
+                                <Button type="submit">Add library</Button>
                             </div>
                         </form>
                     </div>
@@ -98,4 +92,4 @@ class NewBook extends Component {
     }
 }
 
-export default NewBook;
+export default NewLibrary;

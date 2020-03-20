@@ -44,4 +44,24 @@ deleteLibrary(input: {
     errors
 }
 }`;
+
+export const ADD_LIBRARY = gql`
+    mutation createLibrary($title: String!){
+                          createLibrary(input: {
+                            title: $title
+                          })
+                          {
+                            library {
+                              id
+                              title
+                              books {
+                                id
+                                title
+                              }
+                            }
+                            errors
+                          }
+                        }
+`;
+
 export default LIBRARIES;
