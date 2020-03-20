@@ -6,6 +6,7 @@ import styled from "styled-components";
 import NewBook from './NewBook';
 import BOOKS from './../queries/books_query';
 import BookElement from "./BookElement";
+import LibraryList from "./Libraries";
 
 
 const Button = styled.button`
@@ -22,7 +23,7 @@ const Button = styled.button`
 const bookList = (
   <div>
   <Query query={BOOKS}>
-    {({ loading, error, data, refetch }) => {
+    {({ loading, error, data }) => {
       if (loading) return <div>Fetching..</div>
       if (error) return <div>Error! ${error.message} </div>
       return (
@@ -37,6 +38,7 @@ const bookList = (
                     </div>
                   })}
                   <NewBook />
+                  <LibraryList />
         </div>
       )
     }}

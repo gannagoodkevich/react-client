@@ -1,0 +1,126 @@
+import React, { Component } from 'react';
+import axios from 'axios';
+import {Mutation, Query} from 'react-apollo';
+import gql from 'graphql-tag';
+import styled from "styled-components";
+import LIBRARIES, {UPDATE_LIBRARY, DELETE_LIBRARY} from './../queries/libraries_query';
+import BookElement from "./BookElement";
+import { FaEdit } from 'react-icons/fa';
+import { TiDeleteOutline } from 'react-icons/ti';
+import {UPDATE_BOOK} from "../queries/books_query";
+
+const Button = styled.button`
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  width: 11rem;
+  background: transparent;
+  color: #282c34;
+  border: 2px solid #282c34;
+`;
+
+const Input = styled.input.attrs(props => ({
+    type: "text",
+    size: "0.5em",
+}))`
+  padding: 0.5rem 0;
+  margin: 0.5rem 1rem;
+  color: #282c34;
+  font-size: 0.5em;
+  border: 2px solid #282c34;
+  border-radius: 3px;
+`;
+
+
+const updateCache = (cache, { data: {deleteLibrary} }) => {
+    const { allLibraries } = cache.readQuery({  query: LIBRARIES})
+    //console.log(data, cache)
+    console.log(deleteLibrary.id);
+    //console.log(data);
+    cache.writeQuery({
+        query: LIBRARIES,
+        data: {
+            allLibraries: allLibraries.filter(n => n.id !== deleteLibrary.id)
+        }
+    })
+}
+
+class Library extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            editable: 'no'
+        };
+
+        this.onCLickEdit = this.onCLickEdit.bind(this);
+        this.onCLickDelete = this.onCLickDelete.bind(this);
+    }
+
+    onCLickEdit(books_id){
+        console.log("Edit pressed");
+        console.log(books_id);
+        this.setState({editable: 'yes'});
+    };
+
+    onCLickDelete(books_id){
+        console.log("Delete pressed");
+        console.log(books_id);
+        //this.setState({delete: 'yes'});
+        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
+    };
+
+    render() {
+        if (this.state.editable === 'no'){
+            return (
+                <div>
+                    <h3><b>{this.props.title}</b> <b className="Title"><FaEdit onClick={() => this.onCLickEdit(this.props.library_id)}/>
+                        <Mutation mutation={DELETE_LIBRARY} update={updateCache}>
+                            { deleteLibrary => (
+                                <TiDeleteOutline onClick={() =>
+                                    deleteLibrary({ variables: { id: this.props.library_id}})
+                                    //console.log(this.props.book_id);
+                                } />
+                            )}
+                        </Mutation>
+                    </b></h3>
+                    <p></p>
+                    <div className="card">
+                        {this.props.books.map((book) => {
+                            return (
+                                <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
+                            )
+                        })}
+                    </div>
+                </div>
+            )
+        }
+        else{
+            return (
+                <Mutation mutation={UPDATE_LIBRARY}>
+                    {updateLibrary => (
+                            <form
+                                onSubmit={e => {
+                                    e.preventDefault();
+                                    updateLibrary({ variables: { id: this.props.library_id, title: this.input_title.value } });
+
+                                    this.setState({editable: 'no'});
+                                }}
+                            >
+                                <div class='form-book'>
+                                    <h4> <b>Title: <Input defaultValue={this.props.title}
+                                                          ref={node => {
+                                                              this.input_title = node;
+                                                          }} />
+                                    </b></h4>
+                                    <Button type="submit">Update Library</Button>
+                                </div>
+                            </form>
+                    )}
+                </Mutation>
+            )
+        }
+    }
+}
+
+export default Library;
