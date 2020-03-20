@@ -61,4 +61,14 @@ updateBook(input: {
 }
 }`;
 
+export const DELETE_BOOK = gql`mutation deleteBook($id: String!, $authorId: String!){
+deleteBook(input: {
+    authorId: $authorId
+        id: $id
+            })
+{
+    id
+    errors
+}
+}`;
 export default BOOKS;
