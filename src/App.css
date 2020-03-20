@@ -1,4 +1,5 @@
 @use "@material/textfield/mdc-text-field";
+@use "@material/card/mdc-card";
 
 .App {
   text-align: left;
@@ -17,6 +18,12 @@
 
 .form-book{
   text-align: center;
+}
+
+.add-book{
+  float: bottom;
+  text-align: center;
+
 }
 
 .Title{

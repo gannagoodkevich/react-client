@@ -8,6 +8,9 @@ import BOOKS from './../queries/books_query';
 import BookElement from "./BookElement";
 import LibraryList from "./Libraries";
 import NewLibrary from "./NewLibrary";
+import { makeStyles } from '@material-ui/core/styles';
+import Card  from '@material-ui/core/Card';
+import CardContent from "@material-ui/core/CardContent";
 
 
 const Button = styled.button`
@@ -21,10 +24,31 @@ const Button = styled.button`
   border: 2px solid #282c34;
 `;
 
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    maxWidth: 500,
+    display: 'inline-block',
+    margin: '15px',
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});
+
 const bookList = (
   <div>
   <Query query={BOOKS}>
     {({ loading, error, data }) => {
+      const classes = useStyles();
       if (loading) return <div>Fetching..</div>
       if (error) return <div>Error! ${error.message} </div>
       return (
@@ -33,12 +57,21 @@ const bookList = (
           <p></p>
         {data.allBooks.map((book) => {
                     console.log(book.author.name)
-                    return <div className="card">
+                    return <Card className={classes.root}>
+                      <CardContent>
                       <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author.name} />
+                        </CardContent>
                      <p></p>
-                    </div>
+                    </Card>
                   })}
-                  <NewBook />
+          <Card className={classes.root}>
+            <CardContent>
+                  <div className="add-book">
+                    <NewBook />
+                  </div>
+              </CardContent>
+
+          </Card>
                   <LibraryList />
                   <NewLibrary />
         </div>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { MdAddBox } from 'react-icons/md';
 import styled from "styled-components";
 import { Mutation } from 'react-apollo';
 import BOOKS from './../queries/books_query';
@@ -50,7 +51,7 @@ class NewBook extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {title: ''};
+        this.state = {adding: 'no'};
 
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
     }
@@ -61,40 +62,57 @@ class NewBook extends Component {
       this.setState({title: event.target.value});
     }
 
-    render(){
-       return (
-         <Mutation mutation={BOOK_CREATE} update={updateCache}>
-            {createBook => (
-              <div>
-                <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    createBook({ variables: { authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
+    onCLickEdit(){
+        console.log("Adding new book");
+        this.setState({adding: 'yes'});
+    }
 
-                    this.input_title.value = '';
-                    this.input_genre.value = '';
-                  }}
-                >
-                <div class='form-book'>
-                  Title: <Input
-                    ref={node => {
-                      this.input_title = node;
-                    }}
-                  />
-                  <p></p>
-                  Genre: <Input
-                    ref={node => {
-                      this.input_genre = node;
-                    }}
-                  />
-                  <p></p>
-                  <Button type="submit">Add book</Button>
-                  </div>
-                </form>
-              </div>
-            )}
-          </Mutation>
-      );
+    render(){
+        if (this.state.adding === 'no'){
+            return(
+                <div>
+                    <p></p>
+                    <MdAddBox onClick={() => this.onCLickEdit()}/>
+                    <p></p>
+                </div>
+            );
+        }
+        else {
+            return (
+                <Mutation mutation={BOOK_CREATE} update={updateCache}>
+                    {createBook => (
+                        <div>
+                            <form
+                                onSubmit={e => {
+                                    e.preventDefault();
+                                    createBook({ variables: { authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
+
+                                    this.input_title.value = '';
+                                    this.input_genre.value = '';
+                                    this.setState({adding: 'no'});
+                                }}
+                            >
+                                <div class='form-book'>
+                                    Title: <Input
+                                    ref={node => {
+                                        this.input_title = node;
+                                    }}
+                                />
+                                    <p></p>
+                                    Genre: <Input
+                                    ref={node => {
+                                        this.input_genre = node;
+                                    }}
+                                />
+                                    <p></p>
+                                    <Button type="submit">Add book</Button>
+                                </div>
+                            </form>
+                        </div>
+                    )}
+                </Mutation>
+            );
+        }
     }
 }
 
