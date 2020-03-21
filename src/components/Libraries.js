@@ -9,7 +9,33 @@ import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
 import BOOKS, {DELETE_BOOK} from "../queries/books_query";
 import Library from "./Library";
+import { makeStyles } from '@material-ui/core/styles';
+import Card  from '@material-ui/core/Card';
+import CardContent from "@material-ui/core/CardContent";
+import NewBook from "./NewBook";
 
+const useStyles = makeStyles({
+    root: {
+        minWidth: 500,
+        maxWidth: 500,
+        minHeight: 350,
+        maxHeight: 350,
+        display: 'inline-block',
+        margin: '15px',
+        color: '#282c34',
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+});
 
 const updateCache = (cache, { data: {deleteBook} }) => {
     const { allBooks } = cache.readQuery({  query: BOOKS})
@@ -54,6 +80,7 @@ class LibraryList extends Component {
             <div>
                 <Query query={LIBRARIES}>
                     {({ loading, error, data }) => {
+                        const classes = useStyles();
                         if (loading) return <div>Fetching..</div>
                         if (error) return <div>Error! ${error.message} </div>
                         return (
@@ -62,7 +89,18 @@ class LibraryList extends Component {
                                 {data.allLibraries.map((library) => {
                                     console.log(library.title)
                                     return (
-                                        <Library library_id={library.id} title={library.title} books={library.books} />
+                                        <div>
+                                            <Library library_id={library.id} title={library.title} books={library.books} classes={classes}/>
+                                            <Card className={classes.root}>
+                                                <CardContent>
+                                                    <div className="add-book">
+                                                        <NewBook library="yes"/>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+
+
                                     )
                                 })}
                             </div>

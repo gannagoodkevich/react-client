@@ -39,29 +39,6 @@ export const BOOK_CREATE = gql`
                       }
 `;
 
-export const ADD_BOOK_TO_LIBRARY = gql`
-    mutation createBookToLibrary($libraryId: String!, $authorId: String!, $title: String!, $genre: String!){
-                        createBook(input: {
-                          authorId: $authorId
-                          libraryId: $libraryId
-                          title: $title
-                          genre: $genre
-                        })
-                        {
-                          book {
-                            id
-                            title
-                            genre
-                            author{
-                              id
-                              name
-                            }
-                          }
-                          errors
-                        }
-                      }
-`;
-
 export const UPDATE_BOOK = gql`
 mutation updateBook($id: String!, $authorId: String!, $title: String!, $genre: String!){
 updateBook(input: {

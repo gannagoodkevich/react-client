@@ -26,10 +26,13 @@ const Button = styled.button`
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    minWidth: 500,
     maxWidth: 500,
+    minHeight: 350,
+    maxHeight: 350,
     display: 'inline-block',
     margin: '15px',
+    color: '#282c34',
   },
   bullet: {
     display: 'inline-block',
@@ -52,7 +55,7 @@ const bookList = (
       if (loading) return <div>Fetching..</div>
       if (error) return <div>Error! ${error.message} </div>
       return (
-        <div className="flex flex-wrap mb-4">
+        <div className="app-div">
         Books:
           <p></p>
         {data.allBooks.map((book) => {
@@ -67,7 +70,7 @@ const bookList = (
           <Card className={classes.root}>
             <CardContent>
                   <div className="add-book">
-                    <NewBook />
+                    <NewBook library="no"/>
                   </div>
               </CardContent>
 

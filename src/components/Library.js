@@ -8,6 +8,33 @@ import BookElement from "./BookElement";
 import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
 import {UPDATE_BOOK} from "../queries/books_query";
+import { makeStyles } from '@material-ui/core/styles';
+import Card  from '@material-ui/core/Card';
+import CardContent from "@material-ui/core/CardContent";
+import NewBook from "./NewBook";
+
+const useStyles = makeStyles({
+    root: {
+        minWidth: 500,
+        maxWidth: 500,
+        minHeight: 350,
+        maxHeight: 350,
+        display: 'inline-block',
+        margin: '15px',
+        color: '#282c34',
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+});
 
 const Button = styled.button`
   display: inline-block;
@@ -44,7 +71,7 @@ const updateCache = (cache, { data: {deleteLibrary} }) => {
             allLibraries: allLibraries.filter(n => n.id !== deleteLibrary.id)
         }
     })
-}
+};
 
 class Library extends Component {
     constructor(props) {
@@ -85,13 +112,16 @@ class Library extends Component {
                         </Mutation>
                     </b></h3>
                     <p></p>
-                    <div className="card">
                         {this.props.books.map((book) => {
                             return (
-                                <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
+                                <Card className={this.props.classes.root}>
+                                    <CardContent>
+                                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
+                                    </CardContent>
+                                    <p></p>
+                                </Card>
                             )
                         })}
-                    </div>
                 </div>
             )
         }

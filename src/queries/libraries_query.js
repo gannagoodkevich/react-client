@@ -16,6 +16,21 @@ export const LIBRARIES = gql`
                           }
 `;
 
+export const LIBRARY = gql`
+query library($id: String!){
+                          library(id: $id){
+                            id
+                            title
+                            books{
+                              id
+                              title
+                              genre
+                            }
+                          }
+                        }
+                       
+`;
+
 export const UPDATE_LIBRARY = gql`
 mutation updateLibrary($id: String!, $title: String!){
 updateLibrary(input: {
@@ -62,6 +77,29 @@ export const ADD_LIBRARY = gql`
                             errors
                           }
                         }
+`;
+
+export const ADD_BOOK_TO_LIBRARY = gql`
+    mutation createBookForLibrary($libraryId: String!, $authorId: String!, $title: String!, $genre: String!){
+                        createBookForLibrary(input: {
+                          authorId: $authorId
+                          libraryId: $libraryId
+                          title: $title
+                          genre: $genre
+                        })
+                        {
+                          book {
+                            id
+                            title
+                            genre
+                            author{
+                              id
+                              name
+                            }
+                          }
+                          errors
+                        }
+                      }
 `;
 
 export default LIBRARIES;

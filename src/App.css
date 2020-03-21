@@ -21,9 +21,9 @@
 }
 
 .add-book{
-  float: bottom;
+  padding-top: 100px;
   text-align: center;
-
+  vertical-align: middle;
 }
 
 .Title{
@@ -46,7 +46,14 @@
   display: inline-block;
 }
 
-.card:hover {
+.app-div{
+  color: #282c34;
+  padding-left: 80px;
+  width: 1200px;
+  text-align: center;
+}
+
+.Card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
