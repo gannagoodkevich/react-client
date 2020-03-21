@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
 import ListsContainer from './components/ListsContainer';
+import NavbarLight from './components/NavbarLight';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Hello World!</h1>
+          <NavbarLight />
+        <div className="content">
           <ListsContainer />
-        </header>
+        </div>
+        <div id='root'></div>
       </div>
     );
   }
