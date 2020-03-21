@@ -9,17 +9,7 @@ import BOOKS from './../queries/books_query';
 import {BOOK_CREATE} from "./../queries/books_query";
 import LIBRARIES from "../queries/libraries_query";
 import {ADD_LIBRARY} from "../queries/libraries_query";
-
-const Button = styled.button`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.5rem 0;
-  margin: 0.5rem 1rem;
-  width: 11rem;
-  background: transparent;
-  color: #282c34;
-  border: 2px solid #282c34;
-`;
+import Button from "@material-ui/core/Button";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -81,7 +71,6 @@ class NewLibrary extends Component {
                                     this.input_title = node;
                                 }}
                             />
-                                <p></p>
                                 <Button type="submit">Add library</Button>
                             </div>
                         </form>

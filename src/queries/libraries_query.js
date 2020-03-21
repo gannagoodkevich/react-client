@@ -88,6 +88,7 @@ export const ADD_BOOK_TO_LIBRARY = gql`
                           genre: $genre
                         })
                         {
+                          libraryId
                           book {
                             id
                             title

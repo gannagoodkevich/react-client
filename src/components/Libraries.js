@@ -37,20 +37,6 @@ const useStyles = makeStyles({
     },
 });
 
-const updateCache = (cache, { data: {deleteBook} }) => {
-    const { allBooks } = cache.readQuery({  query: BOOKS})
-    //console.log(data, cache)
-    console.log(deleteBook.id);
-    //console.log(data);
-    cache.writeQuery({
-        query: BOOKS,
-        data: {
-            allBooks: allBooks.filter(n => n.id !== deleteBook.id)
-        }
-    })
-}
-
-
 class LibraryList extends Component {
     constructor(props) {
         super(props);
@@ -90,17 +76,8 @@ class LibraryList extends Component {
                                     console.log(library.title)
                                     return (
                                         <div>
-                                            <Library library_id={library.id} title={library.title} books={library.books} classes={classes}/>
-                                            <Card className={classes.root}>
-                                                <CardContent>
-                                                    <div className="add-book">
-                                                        <NewBook library="yes"/>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
+                                            <Library library_id={library.id} title={library.title} books={library.books} classes={classes} />
                                         </div>
-
-
                                     )
                                 })}
                             </div>

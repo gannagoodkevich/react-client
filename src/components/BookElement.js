@@ -6,6 +6,7 @@ import BOOKS, {UPDATE_BOOK} from "./../queries/books_query";
 import {DELETE_BOOK} from "./../queries/books_query";
 import {Mutation} from "react-apollo";
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import {LIBRARIES} from "../queries/libraries_query";
 
 const Button = styled.button`
   display: inline-block;
@@ -30,19 +31,6 @@ const Input = styled.input.attrs(props => ({
   border-radius: 3px;
 `;
 
-const updateCache = (cache, { data: {deleteBook} }) => {
-    const { allBooks } = cache.readQuery({  query: BOOKS})
-    //console.log(data, cache)
-    console.log(deleteBook.id);
-    //console.log(data);
-    cache.writeQuery({
-        query: BOOKS,
-        data: {
-            allBooks: allBooks.filter(n => n.id !== deleteBook.id)
-        }
-    })
-}
-
 class BookElement extends Component {
     constructor(props) {
         super(props);
@@ -53,6 +41,32 @@ class BookElement extends Component {
         this.onCLickEdit = this.onCLickEdit.bind(this);
         this.onCLickDelete = this.onCLickDelete.bind(this);
     }
+
+    updateCache = (cache, { data: {deleteBook} }) => {
+            const { allBooks } = cache.readQuery({  query: BOOKS})
+            //console.log(data, cache)
+            console.log(deleteBook.id);
+            //console.log(data);
+            cache.writeQuery({
+                query: BOOKS,
+                data: {
+                    allBooks: allBooks.filter(n => n.id !== deleteBook.id)
+                }
+            });
+            const { allLibraries } = cache.readQuery({  query: LIBRARIES });
+            //console.log(data, cache)
+            console.log("This is serious!!!");
+            const mappedArray = allLibraries.map((library) => {
+                    library.books = library.books.filter(n => n.id !== deleteBook.id);
+                    return library
+            });
+            cache.writeQuery({
+                query: LIBRARIES,
+                data: {
+                    allLibraries: allLibraries
+                }
+            })
+    };
 
     onCLickEdit(books_id){
         console.log("Edit pressed");
@@ -72,7 +86,7 @@ class BookElement extends Component {
             return (
                 <div className="container">
                     <h4><b>Title: {this.props.title}</b> <b className="Title"><FaEdit onClick={() => this.onCLickEdit(this.props.book_id)}/>
-                    <Mutation mutation={DELETE_BOOK} update={updateCache}>
+                    <Mutation mutation={DELETE_BOOK} update={this.updateCache}>
                         { deleteBook => (
                             <TiDeleteOutline onClick={() =>
                                 deleteBook({ variables: { id: this.props.book_id, authorId: "2"}})

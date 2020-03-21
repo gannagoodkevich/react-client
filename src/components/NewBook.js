@@ -38,22 +38,33 @@ const updateCache = (cache, { data: {createBook} }) => {
 }
 
 const updateCacheLibrary = (cache, { data: {createBookForLibrary} }) => {
+    const { allBooks } = cache.readQuery({  query: BOOKS})
+    //console.log(data, cache)
+    //console.log("Hello");
+
     const { allLibraries } = cache.readQuery({  query: LIBRARIES });
     //console.log(data, cache)
     console.log(createBookForLibrary.book);
     console.log(allLibraries);
     const mappedArray = allLibraries.map((library) => {
-        if (library.id === '1'){
+        if (library.id === createBookForLibrary.libraryId){
             console.log("Yeppy")
             library.books = library.books.concat(createBookForLibrary.book);
         }
         return library
     });
-    console.log(mappedArray);
+    //console.log(mappedArray);
     cache.writeQuery({
         query: LIBRARIES,
         data: {
             allLibraries: allLibraries
+        }
+    })
+
+    cache.writeQuery({
+        query: BOOKS,
+        data: {
+            allBooks: allBooks.concat(createBookForLibrary.book)
         }
     })
 }
@@ -136,7 +147,7 @@ class NewBook extends Component {
                                 <form
                                     onSubmit={e => {
                                         e.preventDefault();
-                                        create_book_for_library({ variables: { libraryId: "1", authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
+                                        create_book_for_library({ variables: { libraryId: this.props.library, authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
 
                                         this.input_title.value = '';
                                         this.input_genre.value = '';

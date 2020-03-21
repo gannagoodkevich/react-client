@@ -11,6 +11,7 @@ import {UPDATE_BOOK} from "../queries/books_query";
 import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
 import NewBook from "./NewBook";
 
 const useStyles = makeStyles({
@@ -36,25 +37,14 @@ const useStyles = makeStyles({
     },
 });
 
-const Button = styled.button`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.5rem 0;
-  margin: 0.5rem 1rem;
-  width: 11rem;
-  background: transparent;
-  color: #282c34;
-  border: 2px solid #282c34;
-`;
-
 const Input = styled.input.attrs(props => ({
     type: "text",
-    size: "0.5em",
+    size: "1em",
 }))`
   padding: 0.5rem 0;
   margin: 0.5rem 1rem;
   color: #282c34;
-  font-size: 0.5em;
+  font-size: 1em;
   border: 2px solid #282c34;
   border-radius: 3px;
 `;
@@ -116,12 +106,18 @@ class Library extends Component {
                             return (
                                 <Card className={this.props.classes.root}>
                                     <CardContent>
-                                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
+                                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" library_id={this.props.library_id}/>
                                     </CardContent>
-                                    <p></p>
                                 </Card>
                             )
                         })}
+                    <Card className={this.props.classes.root}>
+                        <CardContent>
+                            <div className="add-book">
+                                <NewBook library={this.props.library_id}/>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             )
         }
@@ -129,6 +125,7 @@ class Library extends Component {
             return (
                 <Mutation mutation={UPDATE_LIBRARY}>
                     {updateLibrary => (
+                        <div>
                             <form
                                 onSubmit={e => {
                                     e.preventDefault();
@@ -141,11 +138,28 @@ class Library extends Component {
                                     <h4> <b>Title: <Input defaultValue={this.props.title}
                                                           ref={node => {
                                                               this.input_title = node;
-                                                          }} />
+                                                          }} /> <Button type="submit">Update Library</Button>
                                     </b></h4>
-                                    <Button type="submit">Update Library</Button>
                                 </div>
                             </form>
+                        <p></p>
+                        {this.props.books.map((book) => {
+                        return (
+                        <Card className={this.props.classes.root}>
+                        <CardContent>
+                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
+                        </CardContent>
+                        </Card>
+                        )
+                        })}
+                        <Card className={this.props.classes.root}>
+                        <CardContent>
+                        <div className="add-book">
+                        <NewBook library={this.props.library_id}/>
+                        </div>
+                        </CardContent>
+                        </Card>
+                        </div>
                     )}
                 </Mutation>
             )

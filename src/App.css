@@ -48,9 +48,9 @@
 
 .app-div{
   color: #282c34;
-  padding-left: 80px;
+  padding-left: 70px;
   width: 1200px;
-  text-align: center;
+  text-align: left;
 }
 
 .Card:hover {
