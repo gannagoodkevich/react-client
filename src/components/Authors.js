@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Mutation, Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from "styled-components";
-import AUTHORS from "../queries/author_query";
+import AUTHORS  from "../queries/author_query";
 import BookElement from "./BookElement";
 import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -13,13 +13,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import NewBook from "./NewBook";
+import LIBRARIES from "../queries/libraries_query";
+import Author from "./Author";
 
 const useStyles = makeStyles({
     root: {
         minWidth: 500,
         maxWidth: 500,
-        minHeight: 350,
-        maxHeight: 350,
+        minHeight: 250,
+        maxHeight: 250,
         display: 'inline-block',
         margin: '15px',
         color: '#282c34',
@@ -73,13 +75,19 @@ class AuthorList extends Component {
                             <div className="flex flex-wrap mb-4">
                                 Authors:
                                 {data.allAuthors.map((author) => {
-                                    console.log(author.title);
                                     return (
                                         <div>
-                                            {author.title}
+                                                <Author name={author.name} author_id={author.id}  classes={classes}/>
                                         </div>
                                     )
                                 })}
+                                <Card className={classes.root}>
+                                    <CardContent>
+                                        <div className="add-book">
+                                            <NewBook library={this.props.author_id}/>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             </div>
                         )
                     }}
