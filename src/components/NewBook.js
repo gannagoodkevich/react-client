@@ -111,7 +111,7 @@ class NewBook extends Component {
                                 <form
                                     onSubmit={e => {
                                         e.preventDefault();
-                                        createBook({ variables: { authorId: "1", title: this.input_title.value, genre: this.input_genre.value } });
+                                        createBook({ variables: { authorId: "5", title: this.input_title.value, genre: this.input_genre.value } });
 
                                         this.input_title.value = '';
                                         this.input_genre.value = '';

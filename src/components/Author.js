@@ -7,12 +7,13 @@ import AUTHORS, {UPDATE_AUTHOR, DELETE_AUTHOR} from "../queries/author_query";
 import BookElement from "./BookElement";
 import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
-import {UPDATE_BOOK} from "../queries/books_query";
+import BOOKS, {UPDATE_BOOK} from "../queries/books_query";
 import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import NewBook from "./NewBook";
+import {LIBRARIES} from "../queries/libraries_query";
 
 const useStyles = makeStyles({
     root: {
@@ -51,7 +52,7 @@ const Input = styled.input.attrs(props => ({
 
 
 const updateCache = (cache, { data: {deleteAuthor} }) => {
-    const { allAuthors } = cache.readQuery({  query: AUTHORS})
+    const { allAuthors } = cache.readQuery({ query: AUTHORS})
     //console.log(data, cache)
     console.log(deleteAuthor.id);
     //console.log(data);
@@ -59,6 +60,42 @@ const updateCache = (cache, { data: {deleteAuthor} }) => {
         query: AUTHORS,
         data: {
             allAuthors: allAuthors.filter(n => n.id !== deleteAuthor.id)
+        }
+    })
+    const { allBooks } = cache.readQuery({  query: BOOKS})
+    const mappedArray = allBooks.map((book) => {
+         // udate sent data from api
+        if (book.author.id !== deleteAuthor.id){
+            return book
+        }
+    });
+    //console.log(data, cache)
+    //console.log(data);
+    console.log(mappedArray)
+    cache.writeQuery({
+        query: BOOKS,
+        data: {
+            allBooks: mappedArray
+        }
+    });
+
+    const { allLibraries } = cache.readQuery({  query: LIBRARIES });
+
+    const newMappedArray = allLibraries.map((library) => {
+        library.books.map((book) => {
+            if (book.author.id !== deleteAuthor.id){
+                return library // there is smth wrong!!!
+            }
+        })
+    });
+
+    //console.log(data, cache)
+    console.log("This is serious!!!");
+    console.log(newMappedArray)
+    cache.writeQuery({
+        query: LIBRARIES,
+        data: {
+            allLibraries: newMappedArray
         }
     })
 };
