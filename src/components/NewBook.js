@@ -11,7 +11,13 @@ import { LIBRARIES } from "../queries/libraries_query";
 import LIBRARY from "../queries/libraries_query";
 import {ADD_BOOK_TO_LIBRARY} from "../queries/libraries_query";
 import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import styled from "styled-components";
+import AUTHORS from "../queries/author_query";
+import Author from "./Author";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -76,9 +82,12 @@ class NewBook extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {adding: 'no'};
+        this.state = {
+            adding: 'no',
+            selected: ''};
 
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
 
@@ -92,10 +101,14 @@ class NewBook extends Component {
         this.setState({adding: 'yes'});
     }
 
+    onChange(event){
+        this.setState({selected: event.target.value});
+    }
+
     render(){
         if (this.state.adding === 'no'){
             return(
-                <div>
+                <div className="add-book">
                     <p></p>
                         <MdAddBox onClick={() => this.onCLickEdit()}/>
                     <p></p>
@@ -107,11 +120,11 @@ class NewBook extends Component {
                 return (
                     <Mutation mutation={BOOK_CREATE} update={updateCache}>
                         {createBook => (
-                            <div>
+                            <div className="adding">
                                 <form
                                     onSubmit={e => {
                                         e.preventDefault();
-                                        createBook({ variables: { authorId: "12", title: this.input_title.value, genre: this.input_genre.value } });
+                                        createBook({ variables: { authorId: this.state.selected, title: this.input_title.value, genre: this.input_genre.value } });
 
                                         this.input_title.value = '';
                                         this.input_genre.value = '';
@@ -130,7 +143,33 @@ class NewBook extends Component {
                                             this.input_genre = node;
                                         }}
                                     />
+                                    <p></p>
+                                        <Query query={AUTHORS}>
+                                            {({ loading, error, data }) => {
+                                                if (loading) return <div>Fetching..</div>
+                                                if (error) return <div>Error! ${error.message} </div>
+                                                return (
+                                                    <div>
+                                                        Author: <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            value={this.state.selected}
+                                                            onChange={this.onChange}
+                                                        >
+
+                                                            {data.allAuthors.map((author) => {
+                                                                             return (
+                                                                                  <MenuItem value={author.id}>{author.name}</MenuItem>
+                                                                              )
+                                                                        })}
+                                                        </Select>
+                                                    </div>
+                                                )
+                                            }}
+                                        </Query>
+                                    </div>
                                         <p></p>
+                                    <div className="book-button">
                                         <Button type="submit">Add book</Button>
                                     </div>
                                 </form>
@@ -143,18 +182,17 @@ class NewBook extends Component {
                 return (
                     <Mutation mutation={ADD_BOOK_TO_LIBRARY} update={updateCacheLibrary}>
                         {create_book_for_library => (
-                            <div>
                                 <form
                                     onSubmit={e => {
                                         e.preventDefault();
-                                        create_book_for_library({ variables: { libraryId: this.props.library, authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
+                                        create_book_for_library({ variables: { libraryId: this.props.library, authorId: this.state.selected, title: this.input_title.value, genre: this.input_genre.value } });
 
                                         this.input_title.value = '';
                                         this.input_genre.value = '';
                                         this.setState({adding: 'no'});
                                     }}
                                 >
-                                    <div class='form-book'>
+                                    <div className='adding'>
                                         Title: <Input
                                         ref={node => {
                                             this.input_title = node;
@@ -166,11 +204,35 @@ class NewBook extends Component {
                                             this.input_genre = node;
                                         }}
                                     />
+                                        <Query query={AUTHORS}>
+                                            {({ loading, error, data }) => {
+                                                if (loading) return <div>Fetching..</div>
+                                                if (error) return <div>Error! ${error.message} </div>
+                                                return (
+                                                    <div>
+                                                        Author: <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            value={this.state.selected}
+                                                            onChange={this.onChange}
+                                                        >
+
+                                                            {data.allAuthors.map((author) => {
+                                                                return (
+                                                                    <MenuItem value={author.id}>{author.name}</MenuItem>
+                                                                )
+                                                            })}
+                                                        </Select>
+                                                    </div>
+                                                )
+                                            }}
+                                        </Query>
+                                    </div>
                                         <p></p>
+                                    <div className="book-button">
                                         <Button type="submit">Add book</Button>
                                     </div>
                                 </form>
-                            </div>
                         )}
                     </Mutation>
                 );

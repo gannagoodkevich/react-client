@@ -57,6 +57,11 @@ export const ADD_AUTHOR = gql`
                             author {
                               id
                               name
+                              books{
+                                id
+                                title
+                                genre
+                              }
                             }
                             errors
                           }

@@ -15,6 +15,7 @@ import CardContent from "@material-ui/core/CardContent";
 import NewBook from "./NewBook";
 import LIBRARIES from "../queries/libraries_query";
 import Author from "./Author";
+import NewAuthor from "./NewAuthor";
 
 const useStyles = makeStyles({
     root: {
@@ -83,9 +84,7 @@ class AuthorList extends Component {
                                 })}
                                 <Card className={classes.root}>
                                     <CardContent>
-                                        <div className="add-book">
-                                            <NewBook library={this.props.author_id}/>
-                                        </div>
+                                            <NewAuthor/>
                                     </CardContent>
                                 </Card>
                             </div>
