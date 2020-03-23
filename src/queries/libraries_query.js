@@ -11,6 +11,10 @@ export const LIBRARIES = gql`
                               id
                               title
                               genre
+                              author{
+                                id
+                                name
+                              }
                             }
                           }
                           }

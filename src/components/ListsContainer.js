@@ -11,6 +11,8 @@ import NewLibrary from "./NewLibrary";
 import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
+import AUTHORS from "../queries/author_query";
+import AuthorList from "./Authors";
 
 
 const Button = styled.button`
@@ -61,22 +63,15 @@ const bookList = (
         {data.allBooks.map((book) => {
                     console.log(book.author.name)
                     return <Card className={classes.root}>
-                      <CardContent>
-                      <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author.name} />
-                        </CardContent>
-                     <p></p>
+                      <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author}/>
                     </Card>
                   })}
           <Card className={classes.root}>
-            <CardContent>
-                  <div className="add-book">
-                    <NewBook library="no"/>
-                  </div>
-              </CardContent>
-
+            <NewBook library="no"/>
           </Card>
                   <LibraryList />
                   <NewLibrary />
+                  <AuthorList />
         </div>
       )
     }}

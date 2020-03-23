@@ -89,7 +89,7 @@ class BookElement extends Component {
                     <Mutation mutation={DELETE_BOOK} update={this.updateCache}>
                         { deleteBook => (
                             <TiDeleteOutline onClick={() =>
-                                deleteBook({ variables: { id: this.props.book_id, authorId: "2"}})
+                                deleteBook({ variables: { id: this.props.book_id, authorId: this.props.author.id}})
                                 //console.log(this.props.book_id);
                             } />
                         )}
@@ -97,7 +97,7 @@ class BookElement extends Component {
 
                     </b></h4>
                     <p>Genre: {this.props.genre}</p>
-                    <p>Written by: {this.props.author}</p>
+                    <p>Written by: {this.props.author.name}</p>
                 </div>
             )
         }
@@ -109,7 +109,7 @@ class BookElement extends Component {
                             <form
                                 onSubmit={e => {
                                     e.preventDefault();
-                                    updateBook({ variables: { id: this.props.book_id, authorId: "2", title: this.input_title.value, genre: this.input_genre.value } });
+                                    updateBook({ variables: { id: this.props.book_id, authorId: this.props.author.id, title: this.input_title.value, genre: this.input_genre.value } });
 
                                     this.setState({editable: 'no'});
                                 }}
