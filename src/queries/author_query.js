@@ -43,6 +43,7 @@ mutation deleteAuthor($id: String!) {
                               id: $id
                           })
                           {
+                           id
                            errors
                           }
                         }`;

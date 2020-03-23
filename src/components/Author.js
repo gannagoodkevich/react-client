@@ -62,31 +62,24 @@ const updateCache = (cache, { data: {deleteAuthor} }) => {
             allAuthors: allAuthors.filter(n => n.id !== deleteAuthor.id)
         }
     })
+
     const { allBooks } = cache.readQuery({  query: BOOKS})
-    const mappedArray = allBooks.map((book) => {
-         // udate sent data from api
-        if (book.author.id !== deleteAuthor.id){
-            return book
-        }
-    });
+
     //console.log(data, cache)
     //console.log(data);
-    console.log(mappedArray)
+    //console.log(mappedArray)
     cache.writeQuery({
         query: BOOKS,
         data: {
-            allBooks: mappedArray
+            allBooks: allBooks.filter(n => n.author.id !== deleteAuthor.id)
         }
     });
 
     const { allLibraries } = cache.readQuery({  query: LIBRARIES });
 
     const newMappedArray = allLibraries.map((library) => {
-        library.books.map((book) => {
-            if (book.author.id !== deleteAuthor.id){
-                return library // there is smth wrong!!!
-            }
-        })
+        library.books = library.books.filter(n => n.author.id !== deleteAuthor.id);
+        return library
     });
 
     //console.log(data, cache)
@@ -95,7 +88,7 @@ const updateCache = (cache, { data: {deleteAuthor} }) => {
     cache.writeQuery({
         query: LIBRARIES,
         data: {
-            allLibraries: newMappedArray
+            allLibraries: allLibraries
         }
     })
 };
