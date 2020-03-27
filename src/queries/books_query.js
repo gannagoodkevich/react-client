@@ -37,6 +37,10 @@ export const BOOK_CREATE = gql`
                               id
                               name
                             }
+                            comments{
+                              id
+                              content
+                            }
                           }
                           errors
                         }

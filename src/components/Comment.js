@@ -29,30 +29,41 @@ const Input = styled.input.attrs(props => ({
 `;
 
 
-const updateCache = (cache, { data: {deleteAuthor} }) => {
+const updateCache = (cache, { data: {deleteComment} }) => {
 
     const { allBooks } = cache.readQuery({  query: BOOKS})
 
     //console.log(data, cache)
     //console.log(data);
     //console.log(mappedArray)
+
+    const mappedArray = allBooks.map((book) => {
+        book.comments = book.comments.filter(n => n.id !== deleteComment.id);
+        return book
+    });
+
+    console.log(allBooks)
+
     cache.writeQuery({
         query: BOOKS,
         data: {
-            allBooks: allBooks.filter(n => n.author.id !== deleteAuthor.id)
+            allBooks: allBooks
         }
     });
 
     const { allLibraries } = cache.readQuery({  query: LIBRARIES });
 
     const newMappedArray = allLibraries.map((library) => {
-        library.books = library.books.filter(n => n.author.id !== deleteAuthor.id);
+        library.books.map((book) => {
+            book.comments = book.comments.filter(n => n.id !== deleteComment.id);
+            return book
+        });
         return library
     });
 
     //console.log(data, cache)
     console.log("This is serious!!!");
-    console.log(newMappedArray)
+    console.log(allLibraries)
     cache.writeQuery({
         query: LIBRARIES,
         data: {

@@ -9,6 +9,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import {LIBRARIES} from "../queries/libraries_query";
 import Card from "@material-ui/core/Card";
 import Comment from "./Comment";
+import NewComment from "./NewComment";
 
 const Button = styled.button`
   display: inline-block;
@@ -107,6 +108,7 @@ class BookElement extends Component {
                             console.log(comment.content)
                             return <Comment comment_id={comment.id} content={comment.content}/>
                         })}
+                        <NewComment book_id={this.props.book_id}/>
                 </div>
             )
         }

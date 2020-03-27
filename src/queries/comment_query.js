@@ -29,21 +29,18 @@ mutation deleteComment($id: String!) {
                           }
                         }`;
 
-export const ADD_AUTHOR = gql`
-   mutation createAuthor($name: String!){
-                          createAuthor(input: {
-                            name: $name
+export const ADD_COMMENT = gql`
+   mutation createComment($content: String!, $bookId: String!){
+                          createComment(input: {
+                            content: $content
+                            bookId: $bookId
                           })
                           {
-                            author {
+                            comment {
                               id
-                              name
-                              books{
-                                id
-                                title
-                                genre
-                              }
+                              content
                             }
+                            bookId
                             errors
                           }
                         }
