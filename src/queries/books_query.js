@@ -12,6 +12,10 @@ export const BOOKS = gql`
                               id
                               name
                             }
+                            comments{
+                                id
+                                content
+                            }
                           }
                         }
 `;

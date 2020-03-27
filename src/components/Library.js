@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         minWidth: 500,
         maxWidth: 500,
         minHeight: 350,
-        maxHeight: 350,
+        maxHeight: 600,
         display: 'inline-block',
         margin: '15px',
         color: '#282c34',
@@ -105,7 +105,7 @@ class Library extends Component {
                         {this.props.books.map((book) => {
                             return (
                                 <Card className={this.props.classes.root}>
-                                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author} library_id={this.props.library_id}/>
+                                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author} library_id={this.props.library_id} comments={book.comments}/>
                                 </Card>
                             )
                         })}

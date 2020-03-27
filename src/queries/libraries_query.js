@@ -15,6 +15,10 @@ export const LIBRARIES = gql`
                                 id
                                 name
                               }
+                              comments{
+                              id
+                              content
+                              }
                             }
                           }
                           }

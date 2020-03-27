@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     minWidth: 500,
     maxWidth: 500,
     minHeight: 350,
-    maxHeight: 350,
+    maxHeight: 600,
     display: 'inline-block',
     margin: '15px',
     color: '#282c34',
@@ -63,7 +63,7 @@ const bookList = (
         {data.allBooks.map((book) => {
                     console.log(book.author.name)
                     return <Card className={classes.root}>
-                      <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author}/>
+                      <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author} comments={book.comments}/>
                     </Card>
                   })}
           <Card className={classes.root}>
