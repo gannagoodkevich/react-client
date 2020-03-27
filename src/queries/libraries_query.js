@@ -15,6 +15,10 @@ export const LIBRARIES = gql`
                                 id
                                 name
                               }
+                              comments{
+                              id
+                              content
+                              }
                             }
                           }
                           }
@@ -101,6 +105,10 @@ export const ADD_BOOK_TO_LIBRARY = gql`
                               id
                               name
                             }
+                            comments{
+                              id
+                              content
+                              }
                           }
                           errors
                         }

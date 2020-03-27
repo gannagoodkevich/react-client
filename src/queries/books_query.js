@@ -12,6 +12,10 @@ export const BOOKS = gql`
                               id
                               name
                             }
+                            comments{
+                                id
+                                content
+                            }
                           }
                         }
 `;
@@ -32,6 +36,10 @@ export const BOOK_CREATE = gql`
                             author{
                               id
                               name
+                            }
+                            comments{
+                              id
+                              content
                             }
                           }
                           errors

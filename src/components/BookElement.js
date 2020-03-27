@@ -7,6 +7,9 @@ import {DELETE_BOOK} from "./../queries/books_query";
 import {Mutation} from "react-apollo";
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {LIBRARIES} from "../queries/libraries_query";
+import Card from "@material-ui/core/Card";
+import Comment from "./Comment";
+import NewComment from "./NewComment";
 
 const Button = styled.button`
   display: inline-block;
@@ -83,6 +86,7 @@ class BookElement extends Component {
 
     render() {
         if ( this.state.editable == 'no' ){
+            console.log(this.props.comments)
             return (
                 <div className="container">
                     <h4><b>Title: {this.props.title}</b> <b className="Title"><FaEdit onClick={() => this.onCLickEdit(this.props.book_id)}/>
@@ -98,6 +102,13 @@ class BookElement extends Component {
                     </b></h4>
                     <p>Genre: {this.props.genre}</p>
                     <p>Written by: {this.props.author.name}</p>
+
+                        Comments:
+                        {this.props.comments.map((comment) => {
+                            console.log(comment.content)
+                            return <Comment comment_id={comment.id} content={comment.content}/>
+                        })}
+                        <NewComment book_id={this.props.book_id}/>
                 </div>
             )
         }
