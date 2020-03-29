@@ -10,17 +10,24 @@ import {LIBRARIES} from "../queries/libraries_query";
 import Card from "@material-ui/core/Card";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from '@material-ui/core/styles';
+import UpdateBookButton from "./BottunStyle";
 
-const Button = styled.button`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.5rem 0;
-  margin: 0.5rem 1rem;
-  width: 11rem;
-  background: transparent;
-  color: #282c34;
-  border: 2px solid #282c34;
-`;
+const useStyles = makeStyles({
+    root: {
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+        padding: '0 30px',
+    },
+});
+
+
+
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -104,7 +111,7 @@ class BookElement extends Component {
                         {this.props.comments.map((comment) => {
                             return <Comment comment_id={comment.id} content={comment.content}/>
                         })}
-                        <NewComment book_id={this.props.book_id}/>
+                        <NewComment book_id={this.props.book_id} />
                 </div>
             )
         }
@@ -135,7 +142,9 @@ class BookElement extends Component {
                                     }}
                                 />
                                 <p></p>
-                                    <Button type="submit">Update Book</Button>
+                                    <div className="book-button">
+                                        {UpdateBookButton()}
+                                    </div>
                                 </div>
                             </form>
                         </div>

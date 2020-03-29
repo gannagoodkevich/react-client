@@ -11,6 +11,7 @@ import {ADD_COMMENT, COMMENTS} from "../queries/comment_query";
 import Button from "@material-ui/core/Button";
 import { MdAddBox } from 'react-icons/md';
 import {LIBRARIES} from "../queries/libraries_query";
+import {CreateBookButton, CreateCommentButton} from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -93,7 +94,7 @@ class NewComment extends Component {
             return (
                 <Mutation mutation={ADD_COMMENT} update={updateCache}>
                     {createComment => (
-                        <div className='add-author'>
+                        <div>
                             <form
                                 onSubmit={e => {
                                     e.preventDefault();
@@ -103,14 +104,16 @@ class NewComment extends Component {
                                     this.setState({adding: 'no'});
                                 }}
                             >
-                                <div class='form-book'>
+                                <div className='form-book'>
                                     <Input
                                     ref={node => {
                                         this.input_title = node;
                                     }}
                                 />
-                                    <p></p>
-                                    <Button type="submit">Add Comment</Button>
+                                <p></p>
+                                <div className="book-button">
+                                    {CreateBookButton()}
+                                </div>
                                 </div>
                             </form>
                         </div>

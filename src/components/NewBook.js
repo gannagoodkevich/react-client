@@ -15,9 +15,11 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import styled from "styled-components";
 import AUTHORS from "../queries/author_query";
+import {CreateBookButton} from "./BottunStyle";
 import Author from "./Author";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import ButtonAppBar from "./NavbarLight";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -73,7 +75,7 @@ const updateCacheLibrary = (cache, { data: {createBookForLibrary} }) => {
             allBooks: allBooks.concat(createBookForLibrary.book)
         }
     })
-}
+};
 
 class NewBook extends Component {
 
@@ -170,7 +172,7 @@ class NewBook extends Component {
                                     </div>
                                         <p></p>
                                     <div className="book-button">
-                                        <Button type="submit">Add book</Button>
+                                        {CreateBookButton()}
                                     </div>
                                 </form>
                             </div>
@@ -230,7 +232,7 @@ class NewBook extends Component {
                                     </div>
                                         <p></p>
                                     <div className="book-button">
-                                        <Button type="submit">Add book</Button>
+                                        {CreateBookButton()}
                                     </div>
                                 </form>
                         )}
