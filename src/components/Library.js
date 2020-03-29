@@ -140,9 +140,9 @@ class Library extends Component {
                         {this.props.books.map((book) => {
                         return (
                         <Card className={this.props.classes.root}>
-                        <CardContent>
-                        <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
-                        </CardContent>
+                            <CardContent>
+                                <BookElement book_id={book.id} title={book.title} genre={book.genre} author="name" />
+                            </CardContent>
                         </Card>
                         )
                         })}

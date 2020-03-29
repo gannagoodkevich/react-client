@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Mutation, Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from "styled-components";
-import LIBRARIES from './../queries/libraries_query';
+import AUTHORS  from "../queries/author_query";
 import BookElement from "./BookElement";
 import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -13,13 +13,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import NewBook from "./NewBook";
+import LIBRARIES from "../queries/libraries_query";
+import Author from "./Author";
+import NewAuthor from "./NewAuthor";
+import {COMMENTS} from "../queries/comment_query";
+import Comment from "./Comment";
+import NewComment from "./NewComment";
 
 const useStyles = makeStyles({
     root: {
         minWidth: 500,
         maxWidth: 500,
-        minHeight: 350,
-        maxHeight: 600,
+        minHeight: 250,
+        maxHeight: 250,
         display: 'inline-block',
         margin: '15px',
         color: '#282c34',
@@ -37,7 +43,7 @@ const useStyles = makeStyles({
     },
 });
 
-class LibraryList extends Component {
+class CommentList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,18 +70,18 @@ class LibraryList extends Component {
     render() {
         return (
             <div>
-                <Query query={LIBRARIES}>
+                <Query query={COMMENTS}>
                     {({ loading, error, data }) => {
                         const classes = useStyles();
                         if (loading) return <div>Fetching..</div>
                         if (error) return <div>Error! ${error.message} </div>
                         return (
                             <div className="flex flex-wrap mb-4">
-                                Libraries:
-                                {data.allLibraries.map((library) => {
+                                Comments:
+                                {data.allComments.map((comment) => {
                                     return (
                                         <div>
-                                            <Library library_id={library.id} title={library.title} books={library.books} classes={classes} />
+                                            <Comment comment_id={comment.id} content={comment.content}/>
                                         </div>
                                     )
                                 })}
@@ -88,4 +94,4 @@ class LibraryList extends Component {
     }
 }
 
-export default LibraryList;
+export default CommentList;

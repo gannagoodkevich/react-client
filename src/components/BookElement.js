@@ -58,7 +58,6 @@ class BookElement extends Component {
             });
             const { allLibraries } = cache.readQuery({  query: LIBRARIES });
             //console.log(data, cache)
-            console.log("This is serious!!!");
             const mappedArray = allLibraries.map((library) => {
                     library.books = library.books.filter(n => n.id !== deleteBook.id);
                     return library
@@ -86,7 +85,6 @@ class BookElement extends Component {
 
     render() {
         if ( this.state.editable == 'no' ){
-            console.log(this.props.comments)
             return (
                 <div className="container">
                     <h4><b>Title: {this.props.title}</b> <b className="Title"><FaEdit onClick={() => this.onCLickEdit(this.props.book_id)}/>
@@ -102,10 +100,8 @@ class BookElement extends Component {
                     </b></h4>
                     <p>Genre: {this.props.genre}</p>
                     <p>Written by: {this.props.author.name}</p>
-
                         Comments:
                         {this.props.comments.map((comment) => {
-                            console.log(comment.content)
                             return <Comment comment_id={comment.id} content={comment.content}/>
                         })}
                         <NewComment book_id={this.props.book_id}/>

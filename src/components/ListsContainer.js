@@ -13,6 +13,7 @@ import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import AUTHORS from "../queries/author_query";
 import AuthorList from "./Authors";
+import CommentList from "./Comments";
 
 
 const Button = styled.button`
@@ -58,20 +59,10 @@ const bookList = (
       if (error) return <div>Error! ${error.message} </div>
       return (
         <div className="app-div">
-        Books:
-          <p></p>
-        {data.allBooks.map((book) => {
-                    console.log(book.author.name)
-                    return <Card className={classes.root}>
-                      <BookElement book_id={book.id} title={book.title} genre={book.genre} author={book.author} comments={book.comments}/>
-                    </Card>
-                  })}
-          <Card className={classes.root}>
-            <NewBook library="no"/>
-          </Card>
                   <LibraryList />
                   <NewLibrary />
                   <AuthorList />
+                  <CommentList />
         </div>
       )
     }}
