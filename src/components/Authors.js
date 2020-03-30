@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import {Mutation, Query} from 'react-apollo';
-import gql from 'graphql-tag';
-import styled from "styled-components";
 import AUTHORS  from "../queries/author_query";
-import BookElement from "./BookElement";
-import { FaEdit } from 'react-icons/fa';
-import { TiDeleteOutline } from 'react-icons/ti';
-import BOOKS, {DELETE_BOOK} from "../queries/books_query";
-import Library from "./Library";
 import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
-import NewBook from "./NewBook";
-import LIBRARIES from "../queries/libraries_query";
 import Author from "./Author";
 import NewAuthor from "./NewAuthor";
 
@@ -46,27 +36,10 @@ class AuthorList extends Component {
         this.state = {
             editable: 'no'
         };
-
-        this.onCLickEdit = this.onCLickEdit.bind(this);
-        this.onCLickDelete = this.onCLickDelete.bind(this);
     }
-
-    onCLickEdit(books_id){
-        console.log("Edit pressed");
-        console.log(books_id);
-        this.setState({editable: 'yes'});
-    };
-
-    onCLickDelete(books_id){
-        console.log("Delete pressed");
-        console.log(books_id);
-        this.setState({delete: 'yes'});
-        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
-    };
 
     render() {
         return (
-            <div>
                 <Query query={AUTHORS}>
                     {({ loading, error, data }) => {
                         const classes = useStyles();
@@ -91,7 +64,6 @@ class AuthorList extends Component {
                         )
                     }}
                 </Query>
-            </div>
         )
     }
 }

@@ -49,9 +49,6 @@ const bookList = (
       if (error) return <div>Error! ${error.message} </div>
       return (
         <div className="app-div">
-          {render => {
-            return ButtonAppBar()
-          }}
                   <LibraryList />
                   <NewLibrary />
                   <AuthorList />
