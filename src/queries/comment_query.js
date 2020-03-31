@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
+export  const COMMENTS = gql`
+{
+                    allComments{
+                            id
+                            content
+                    }
+}
+`;
+
 export const UPDATE_COMMENT = gql`
 mutation updateComment($id: String!, $content: String!){
                           updateComment(input: {
@@ -26,6 +35,7 @@ mutation deleteComment($id: String!) {
                           {
                            id
                            errors
+                           bookId
                           }
                         }`;
 

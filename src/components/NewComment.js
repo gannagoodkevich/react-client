@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from "styled-components";
 import { Mutation } from 'react-apollo';
 import BOOKS from './../queries/books_query';
-import {BOOK_CREATE} from "./../queries/books_query";
-import { ADD_COMMENT } from "../queries/comment_query";
-import Button from "@material-ui/core/Button";
+import {ADD_COMMENT, COMMENTS} from "../queries/comment_query";
 import { MdAddBox } from 'react-icons/md';
-import {LIBRARIES} from "../queries/libraries_query";
+import {CreateBookButton} from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -25,46 +19,34 @@ const Input = styled.input.attrs(props => ({
 `;
 
 const updateCache = (cache, { data: {createComment} }) => {
+
+    const { allComments } = cache.readQuery({  query: COMMENTS});
+
+    console.log(createComment.comment)
+    cache.writeQuery({
+        query: COMMENTS,
+        data: {
+            allComments: allComments.concat(createComment.comment)
+        }
+    });
+
     const { allBooks } = cache.readQuery({  query: BOOKS});
-    const { allLibraries } = cache.readQuery({  query: LIBRARIES});
-    console.log(createComment.bookId)
 
     const mappedArray = allBooks.map((book) => {
         if (book.id === createComment.bookId){
-            console.log("Yeppy")
-            book.comments = book.comments.concat(createComment.comment);
+            console.log(`create comment ${createComment.comment.id} in book`)
+            book.comments = book.comments.concat(createComment.comment)
         }
-        return book
+        return book;
     });
 
-    console.log(allBooks)
     cache.writeQuery({
         query: BOOKS,
         data: {
-            allBooks: allBooks
-        }
-    })
-
-    const newMappedArray = allLibraries.map((library) => {
-        library.books.map((book) =>{
-            if (book.id === createComment.bookId){
-                console.log("Yeppy")
-                book.comments = book.comments.concat(createComment.comment);
-            }
-            return book
-        });
-        return library
-    });
-
-
-    console.log(newMappedArray)
-    cache.writeQuery({
-        query: LIBRARIES,
-        data: {
-            allLibraries: allLibraries
+            allBooks: mappedArray
         }
     });
-}
+};
 
 class NewComment extends Component {
 
@@ -105,7 +87,7 @@ class NewComment extends Component {
             return (
                 <Mutation mutation={ADD_COMMENT} update={updateCache}>
                     {createComment => (
-                        <div className='add-author'>
+                        <div>
                             <form
                                 onSubmit={e => {
                                     e.preventDefault();
@@ -115,14 +97,16 @@ class NewComment extends Component {
                                     this.setState({adding: 'no'});
                                 }}
                             >
-                                <div class='form-book'>
+                                <div className='form-book'>
                                     <Input
                                     ref={node => {
                                         this.input_title = node;
                                     }}
                                 />
-                                    <p></p>
-                                    <Button type="submit">Add Comment</Button>
+                                <p></p>
+                                <div className="book-button">
+                                    {CreateBookButton()}
+                                </div>
                                 </div>
                             </form>
                         </div>

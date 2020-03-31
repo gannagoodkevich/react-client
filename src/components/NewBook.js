@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import { MdAddBox } from 'react-icons/md';
 import { Mutation } from 'react-apollo';
 import BOOKS from './../queries/books_query';
 import {BOOK_CREATE} from "./../queries/books_query";
 import { LIBRARIES } from "../queries/libraries_query";
-import LIBRARY from "../queries/libraries_query";
 import {ADD_BOOK_TO_LIBRARY} from "../queries/libraries_query";
-import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import styled from "styled-components";
 import AUTHORS from "../queries/author_query";
-import Author from "./Author";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import {CreateBookButton} from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -33,8 +26,6 @@ const Input = styled.input.attrs(props => ({
 
 const updateCache = (cache, { data: {createBook} }) => {
   const { allBooks } = cache.readQuery({  query: BOOKS})
-  //console.log(data, cache)
-  //console.log("Hello");
   cache.writeQuery({
     query: BOOKS,
     data: {
@@ -45,13 +36,8 @@ const updateCache = (cache, { data: {createBook} }) => {
 
 const updateCacheLibrary = (cache, { data: {createBookForLibrary} }) => {
     const { allBooks } = cache.readQuery({  query: BOOKS})
-    //console.log(data, cache)
-    //console.log("Hello");
 
     const { allLibraries } = cache.readQuery({  query: LIBRARIES });
-    //console.log(data, cache)
-    console.log(createBookForLibrary.book);
-    console.log(allLibraries);
     const mappedArray = allLibraries.map((library) => {
         if (library.id === createBookForLibrary.libraryId){
             console.log("Yeppy")
@@ -59,13 +45,12 @@ const updateCacheLibrary = (cache, { data: {createBookForLibrary} }) => {
         }
         return library
     });
-    //console.log(mappedArray);
     cache.writeQuery({
         query: LIBRARIES,
         data: {
             allLibraries: allLibraries
         }
-    })
+    });
 
     cache.writeQuery({
         query: BOOKS,
@@ -73,7 +58,7 @@ const updateCacheLibrary = (cache, { data: {createBookForLibrary} }) => {
             allBooks: allBooks.concat(createBookForLibrary.book)
         }
     })
-}
+};
 
 class NewBook extends Component {
 
@@ -170,7 +155,7 @@ class NewBook extends Component {
                                     </div>
                                         <p></p>
                                     <div className="book-button">
-                                        <Button type="submit">Add book</Button>
+                                        {CreateBookButton()}
                                     </div>
                                 </form>
                             </div>
@@ -230,7 +215,7 @@ class NewBook extends Component {
                                     </div>
                                         <p></p>
                                     <div className="book-button">
-                                        <Button type="submit">Add book</Button>
+                                        {CreateBookButton()}
                                     </div>
                                 </form>
                         )}

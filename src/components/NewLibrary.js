@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from "styled-components";
 import { Mutation } from 'react-apollo';
-import BOOKS from './../queries/books_query';
-import {BOOK_CREATE} from "./../queries/books_query";
 import LIBRARIES from "../queries/libraries_query";
 import {ADD_LIBRARY} from "../queries/libraries_query";
-import Button from "@material-ui/core/Button";
+import {CreateBookButton} from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -25,7 +19,6 @@ const Input = styled.input.attrs(props => ({
 
 const updateCache = (cache, { data: {createLibrary} }) => {
     const { allLibraries } = cache.readQuery({  query: LIBRARIES})
-    //console.log(data, cache)
     console.log(createLibrary.library);
     cache.writeQuery({
         query: LIBRARIES,
@@ -71,9 +64,10 @@ class NewLibrary extends Component {
                                     this.input_title = node;
                                 }}
                             />
-                                <Button type="submit">Add library</Button>
+                                {CreateBookButton()}
                             </div>
                         </form>
+                        <p></p>
                     </div>
                 )}
             </Mutation>

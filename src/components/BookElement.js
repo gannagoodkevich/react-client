@@ -5,22 +5,11 @@ import styled from "styled-components";
 import BOOKS, {UPDATE_BOOK} from "./../queries/books_query";
 import {DELETE_BOOK} from "./../queries/books_query";
 import {Mutation} from "react-apollo";
-import { useQuery, useMutation } from '@apollo/react-hooks';
 import {LIBRARIES} from "../queries/libraries_query";
-import Card from "@material-ui/core/Card";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
-
-const Button = styled.button`
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0.5rem 0;
-  margin: 0.5rem 1rem;
-  width: 11rem;
-  background: transparent;
-  color: #282c34;
-  border: 2px solid #282c34;
-`;
+import { makeStyles } from '@material-ui/core/styles';
+import UpdateBookButton from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -46,10 +35,10 @@ class BookElement extends Component {
     }
 
     updateCache = (cache, { data: {deleteBook} }) => {
-            const { allBooks } = cache.readQuery({  query: BOOKS})
-            //console.log(data, cache)
+            const { allBooks } = cache.readQuery({  query: BOOKS});
+
             console.log(deleteBook.id);
-            //console.log(data);
+
             cache.writeQuery({
                 query: BOOKS,
                 data: {
@@ -57,8 +46,7 @@ class BookElement extends Component {
                 }
             });
             const { allLibraries } = cache.readQuery({  query: LIBRARIES });
-            //console.log(data, cache)
-            console.log("This is serious!!!");
+
             const mappedArray = allLibraries.map((library) => {
                     library.books = library.books.filter(n => n.id !== deleteBook.id);
                     return library
@@ -81,12 +69,10 @@ class BookElement extends Component {
         console.log("Delete pressed");
         console.log(books_id);
         this.setState({delete: 'yes'});
-        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
     };
 
     render() {
         if ( this.state.editable == 'no' ){
-            console.log(this.props.comments)
             return (
                 <div className="container">
                     <h4><b>Title: {this.props.title}</b> <b className="Title"><FaEdit onClick={() => this.onCLickEdit(this.props.book_id)}/>
@@ -94,7 +80,6 @@ class BookElement extends Component {
                         { deleteBook => (
                             <TiDeleteOutline onClick={() =>
                                 deleteBook({ variables: { id: this.props.book_id, authorId: this.props.author.id}})
-                                //console.log(this.props.book_id);
                             } />
                         )}
                     </Mutation>
@@ -102,13 +87,11 @@ class BookElement extends Component {
                     </b></h4>
                     <p>Genre: {this.props.genre}</p>
                     <p>Written by: {this.props.author.name}</p>
-
                         Comments:
                         {this.props.comments.map((comment) => {
-                            console.log(comment.content)
                             return <Comment comment_id={comment.id} content={comment.content}/>
                         })}
-                        <NewComment book_id={this.props.book_id}/>
+                        <NewComment book_id={this.props.book_id} />
                 </div>
             )
         }
@@ -139,7 +122,9 @@ class BookElement extends Component {
                                     }}
                                 />
                                 <p></p>
-                                    <Button type="submit">Update Book</Button>
+                                    <div className="book-button">
+                                        {UpdateBookButton()}
+                                    </div>
                                 </div>
                             </form>
                         </div>
