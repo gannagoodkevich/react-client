@@ -1,19 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {Mutation, Query} from 'react-apollo';
-import gql from 'graphql-tag';
-import styled from "styled-components";
+import {Query} from 'react-apollo';
 import LIBRARIES from './../queries/libraries_query';
-import BookElement from "./BookElement";
-import { FaEdit } from 'react-icons/fa';
-import { TiDeleteOutline } from 'react-icons/ti';
-import BOOKS, {DELETE_BOOK} from "../queries/books_query";
 import Library from "./Library";
 import { makeStyles } from '@material-ui/core/styles';
-import Card  from '@material-ui/core/Card';
-import CardContent from "@material-ui/core/CardContent";
-import NewBook from "./NewBook";
-import ButtonAppBar from "./NavbarLight";
 
 const useStyles = makeStyles({
     root: {
@@ -59,7 +48,6 @@ class LibraryList extends Component {
         console.log("Delete pressed");
         console.log(books_id);
         this.setState({delete: 'yes'});
-        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
     };
 
     render() {

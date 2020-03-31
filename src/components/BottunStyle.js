@@ -29,11 +29,6 @@ export function CreateBookButton() {
     return <Button className={classes.root} type="submit">Create</Button>;
 }
 
-export function CreateCommentButton() {
-    const classes = useStyles1();
-    return <Button className={classes.root} type="submit">Create</Button>;
-}
-
 export default function UpdateBookButton() {
     const classes = useStyles();
     return <Button className={classes.root} type="submit">Update</Button>;

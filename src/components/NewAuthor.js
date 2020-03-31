@@ -11,6 +11,7 @@ import AUTHORS from "../queries/author_query";
 import { ADD_AUTHOR } from "../queries/author_query";
 import Button from "@material-ui/core/Button";
 import { MdAddBox } from 'react-icons/md';
+import {CreateBookButton} from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -26,8 +27,6 @@ const Input = styled.input.attrs(props => ({
 
 const updateCache = (cache, { data: {createAuthor} }) => {
     const { allAuthors } = cache.readQuery({  query: AUTHORS})
-    //console.log(data, cache)
-    console.log(createAuthor.author);
     cache.writeQuery({
         query: AUTHORS,
         data: {
@@ -92,7 +91,7 @@ class NewAuthor extends Component {
                                     }}
                                 />
                                 <p></p>
-                                    <Button type="submit">Add library</Button>
+                                    {CreateBookButton()}
                                 </div>
                             </form>
                         </div>

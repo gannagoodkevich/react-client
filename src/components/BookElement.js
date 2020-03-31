@@ -5,29 +5,11 @@ import styled from "styled-components";
 import BOOKS, {UPDATE_BOOK} from "./../queries/books_query";
 import {DELETE_BOOK} from "./../queries/books_query";
 import {Mutation} from "react-apollo";
-import { useQuery, useMutation } from '@apollo/react-hooks';
 import {LIBRARIES} from "../queries/libraries_query";
-import Card from "@material-ui/core/Card";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import UpdateBookButton from "./BottunStyle";
-
-const useStyles = makeStyles({
-    root: {
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        border: 0,
-        borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        color: 'white',
-        height: 48,
-        padding: '0 30px',
-    },
-});
-
-
-
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -53,10 +35,10 @@ class BookElement extends Component {
     }
 
     updateCache = (cache, { data: {deleteBook} }) => {
-            const { allBooks } = cache.readQuery({  query: BOOKS})
-            //console.log(data, cache)
+            const { allBooks } = cache.readQuery({  query: BOOKS});
+
             console.log(deleteBook.id);
-            //console.log(data);
+
             cache.writeQuery({
                 query: BOOKS,
                 data: {
@@ -64,7 +46,7 @@ class BookElement extends Component {
                 }
             });
             const { allLibraries } = cache.readQuery({  query: LIBRARIES });
-            //console.log(data, cache)
+
             const mappedArray = allLibraries.map((library) => {
                     library.books = library.books.filter(n => n.id !== deleteBook.id);
                     return library
@@ -87,7 +69,6 @@ class BookElement extends Component {
         console.log("Delete pressed");
         console.log(books_id);
         this.setState({delete: 'yes'});
-        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
     };
 
     render() {
@@ -99,7 +80,6 @@ class BookElement extends Component {
                         { deleteBook => (
                             <TiDeleteOutline onClick={() =>
                                 deleteBook({ variables: { id: this.props.book_id, authorId: this.props.author.id}})
-                                //console.log(this.props.book_id);
                             } />
                         )}
                     </Mutation>

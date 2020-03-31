@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import {Mutation, Query} from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from "styled-components";
-import BookElement from "./BookElement";
 import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
 import BOOKS, {UPDATE_BOOK} from "../queries/books_query";
-import { makeStyles } from '@material-ui/core/styles';
-import Card  from '@material-ui/core/Card';
-import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import NewBook from "./NewBook";
-import {LIBRARIES} from "../queries/libraries_query";
 import {COMMENTS} from "../queries/comment_query";
 import UPDATE_COMMENT from "../queries/comment_query";
 import {DELETE_COMMENT} from "../queries/comment_query";
@@ -78,8 +70,6 @@ class Comment extends Component {
     onCLickDelete(books_id){
         console.log("Delete pressed");
         console.log(books_id);
-        //this.setState({delete: 'yes'});
-        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
     };
 
     render() {
@@ -91,7 +81,6 @@ class Comment extends Component {
                                     { deleteComment => (
                                         <TiDeleteOutline onClick={() =>
                                             deleteComment({ variables: { id: this.props.comment_id}})
-                                            //console.log(this.props.book_id);
                                         } />
                                     )}
                                 </Mutation>

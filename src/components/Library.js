@@ -1,41 +1,15 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import {Mutation, Query} from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from "styled-components";
 import LIBRARIES, {UPDATE_LIBRARY, DELETE_LIBRARY} from './../queries/libraries_query';
 import BookElement from "./BookElement";
 import { FaEdit } from 'react-icons/fa';
 import { TiDeleteOutline } from 'react-icons/ti';
-import {UPDATE_BOOK} from "../queries/books_query";
 import { makeStyles } from '@material-ui/core/styles';
 import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import NewBook from "./NewBook";
-
-const useStyles = makeStyles({
-    root: {
-        minWidth: 500,
-        maxWidth: 500,
-        minHeight: 350,
-        maxHeight: 600,
-        display: 'inline-block',
-        margin: '15px',
-        color: '#282c34',
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-});
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -52,9 +26,7 @@ const Input = styled.input.attrs(props => ({
 
 const updateCache = (cache, { data: {deleteLibrary} }) => {
     const { allLibraries } = cache.readQuery({  query: LIBRARIES})
-    //console.log(data, cache)
     console.log(deleteLibrary.id);
-    //console.log(data);
     cache.writeQuery({
         query: LIBRARIES,
         data: {
@@ -83,8 +55,6 @@ class Library extends Component {
     onCLickDelete(books_id){
         console.log("Delete pressed");
         console.log(books_id);
-        //this.setState({delete: 'yes'});
-        //deleteBook({ variables: { id: this.props.book_id, authorId: "2"} })
     };
 
     render() {
@@ -96,7 +66,6 @@ class Library extends Component {
                             { deleteLibrary => (
                                 <TiDeleteOutline onClick={() =>
                                     deleteLibrary({ variables: { id: this.props.library_id}})
-                                    //console.log(this.props.book_id);
                                 } />
                             )}
                         </Mutation>

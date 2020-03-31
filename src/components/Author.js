@@ -9,6 +9,7 @@ import Card  from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import {LIBRARIES} from "../queries/libraries_query";
+import UpdateBookButton, {CreateBookButton} from "./BottunStyle";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -114,7 +115,7 @@ class Author extends Component {
                                     <h4> <b>Title: <Input defaultValue={this.props.name}
                                                           ref={node => {
                                                               this.input_title = node;
-                                                          }} /> <Button type="submit">Update Library</Button>
+                                                          }} /> {UpdateBookButton()}
                                     </b></h4>
                                 </div>
                             </form>
