@@ -79,4 +79,13 @@ deleteBook(input: {
     errors
 }
 }`;
+
+export const AUTHORIZED = gql`
+  {
+                          authorized{
+                            id
+                            email
+                          }
+                        }
+`;
 export default BOOKS;

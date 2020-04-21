@@ -36,14 +36,6 @@ class CommentList extends Component {
                         if (error) return <div>Error! ${error.message} </div>
                         return (
                             <div className="flex flex-wrap mb-4">
-                                Comments:
-                                {data.allComments.map((comment) => {
-                                    return (
-                                        <div>
-                                            <Comment comment_id={comment.id} content={comment.content}/>
-                                        </div>
-                                    )
-                                })}
                             </div>
                         )
                     }}

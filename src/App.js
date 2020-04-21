@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import ListsContainer from './components/ListsContainer';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import UserLogin from "./components/UserLogin";
+
 import {createMuiTheme} from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
@@ -11,12 +14,26 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="content">
-            <ListsContainer />
-        </div>
+          <BrowserRouter>
+          <nav className="navbar navbar-light">
+              <ul className="nav navbar-nav">
+                  <li><Link to="/">Home</Link></li>
+                  <li><Link to="/profile">Login</Link></li>
+              </ul>
+          </nav>
+
+          <Switch>
+              <Route exact path="/" component={ListsContainer}/>
+              <Route path="/profile" component={UserLogin}/>
+          </Switch>
+              </BrowserRouter>
       </div>
+
+
     );
   }
 }
+
+
 
 export default App;
