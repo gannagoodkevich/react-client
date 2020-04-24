@@ -17,14 +17,14 @@ class App extends Component {
           <BrowserRouter>
           <nav className="navbar navbar-light">
               <ul className="nav navbar-nav">
-                  <li><Link to="/">Home</Link></li>
-                  <li><Link to="/profile">Login</Link></li>
+                  <li><Link to="/homepage">Home</Link></li>
+                  <li><Link to="/">Login</Link></li>
               </ul>
           </nav>
 
           <Switch>
-              <Route exact path="/" component={ListsContainer}/>
-              <Route path="/profile" component={UserLogin}/>
+              <Route exact path="/homepage" component={ListsContainer}/>
+              <Route path="/" component={UserLogin}/>
           </Switch>
               </BrowserRouter>
       </div>
