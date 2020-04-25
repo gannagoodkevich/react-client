@@ -7,6 +7,7 @@ import NewLibrary from "./NewLibrary";
 import { makeStyles } from '@material-ui/core/styles';
 import AuthorList from "./Authors";
 import CommentList from "./Comments";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
   root: {
@@ -36,11 +37,14 @@ const bookList = (
     <Query query={AUTHORIZED}>
       {({ loading, error, data }) => {
         let email
-        if (data !== undefined){
-          email = data.authorized.email
+        if (Cookies.get('user_id') !== 'nil'){
+          //email = data.authorized.email
+          if (data !== undefined){
+            console.log(data.authorized.id)
+          }
           return (
               <div className="content">
-                <h1>Hello, {email}</h1>
+                <h1>Hello, {Cookies.get('name')}</h1>
                 <Query query={BOOKS}>
                   {({ loading, error, data }) => {
                     if (loading) return <div>Fetching..</div>

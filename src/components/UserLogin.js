@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client'
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 class UserLogin extends Component {
     constructor(props) {
         super(props);
 
         this.openPopup = this.openPopup.bind(this);
+        this.destroy = this.destroy.bind(this);
     }
 
     openPopup() {
@@ -25,6 +27,12 @@ class UserLogin extends Component {
         )
     }
 
+    destroy(){
+        //Cookies.get('user_id')
+        axios.delete('http://localhost:3001/not_devise/users/sign_out', {params: {user_id:  Cookies.get('user_id')}})
+        Cookies.set('user_id', 'nil', { path: '/' });
+    }
+
     render() {
         return (
             <div className="content"> <h1> Login page </h1>
@@ -32,6 +40,9 @@ class UserLogin extends Component {
                     onClick={this.openPopup}
                 >
                     Login with facebook
+                </button>
+                <button onClick={this.destroy}>
+                    Log out
                 </button>
             </div>
         )

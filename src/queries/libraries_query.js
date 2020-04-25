@@ -7,6 +7,7 @@ export const LIBRARIES = gql`
                     allLibraries{
                             id
                             title
+                            userId
                             books{
                               id
                               title
@@ -69,14 +70,16 @@ deleteLibrary(input: {
 }`;
 
 export const ADD_LIBRARY = gql`
-    mutation createLibrary($title: String!){
+    mutation createLibrary($title: String!, $userId: String!){
                           createLibrary(input: {
                             title: $title
+                            userId: $userId
                           })
                           {
                             library {
                               id
                               title
+                              userId
                               books {
                                 id
                                 title
