@@ -62,7 +62,8 @@ class Author extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editable: 'no'
+            editable: 'no',
+            inputTitle: ''
         };
 
         this.onCLickEdit = this.onCLickEdit.bind(this);
@@ -112,7 +113,7 @@ class Author extends Component {
                                 }}
                             >
                                 <div class='form-book'>
-                                    <h4> <b>Title: <Input defaultValue={this.props.name}
+                                    <h4> <b>Title: <Input defaultValue={this.props.name} value={this.state.inputTitle} onChange={(event) => this.setState({})}
                                                           ref={node => {
                                                               this.input_title = node;
                                                           }} /> {UpdateBookButton()}

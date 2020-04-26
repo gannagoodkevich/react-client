@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import LIBRARIES from "../queries/libraries_query";
 import {ADD_LIBRARY} from "../queries/libraries_query";
 import {CreateBookButton} from "./BottunStyle";
+import Cookies from "js-cookie";
 
 const Input = styled.input.attrs(props => ({
     type: "text",
@@ -53,7 +54,8 @@ class NewLibrary extends Component {
                         <form
                             onSubmit={e => {
                                 e.preventDefault();
-                                createLibrary({ variables: { title: this.input_title.value } });
+                                console.log(Cookies.get('user_id'))
+                                createLibrary({ variables: { title: this.input_title.value, userId: Cookies.get('user_id') } });
 
                                 this.input_title.value = '';
                             }}

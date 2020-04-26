@@ -3,6 +3,7 @@ import {Query} from 'react-apollo';
 import LIBRARIES from './../queries/libraries_query';
 import Library from "./Library";
 import { makeStyles } from '@material-ui/core/styles';
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
     root: {
@@ -62,11 +63,14 @@ class LibraryList extends Component {
                             <div className="flex flex-wrap mb-4">
                                 Libraries:
                                 {data.allLibraries.map((library) => {
-                                    return (
-                                        <div>
-                                            <Library library_id={library.id} title={library.title} books={library.books} classes={classes} />
-                                        </div>
-                                    )
+                                    if(Cookies.get('user_id')===library.userId){
+                                        //console.log("Hahahah")
+                                        return (
+                                            <div>
+                                                <Library library_id={library.id} title={library.title} books={library.books} classes={classes} />
+                                            </div>
+                                        )
+                                    }
                                 })}
                             </div>
                         )
