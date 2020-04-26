@@ -9,6 +9,7 @@ class UserLogin extends Component {
 
         this.openPopup = this.openPopup.bind(this);
         this.destroy = this.destroy.bind(this);
+        this.google = this.google.bind(this);
     }
 
     openPopup() {
@@ -33,6 +34,21 @@ class UserLogin extends Component {
         Cookies.set('user_id', 'nil', { path: '/' });
     }
 
+    google(){
+        const provider = 'google_oauth2'
+        //const socket = io("http://localhost:3000")
+        const width = 600, height = 600
+        const left = (window.innerWidth / 2) - (width / 2)
+        const top = (window.innerHeight / 2) - (height / 2)
+        const url = `http://localhost:3001/users/auth/google_oauth2`
+
+
+        return window.open(url, '',
+            `toolbar=no, location=no, directories=no, status=no, menubar=no, 
+      scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
+      height=${height}, top=${top}, left=${left}`
+        )
+    }
     render() {
         return (
             <div className="content"> <h1> Login page </h1>
@@ -40,6 +56,11 @@ class UserLogin extends Component {
                     onClick={this.openPopup}
                 >
                     Login with facebook
+                </button>
+                <button
+                    onClick={this.google}
+                >
+                    Login with google
                 </button>
                 <button onClick={this.destroy}>
                     Log out
